@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مساحة مصممة خصيصاً لك 🌸</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            font-family: 'Tajawal', sans-serif;
+            box-sizing: border-box;
+        }
+        body {
+            background: linear-gradient(135deg, #fdf2f8 0%, #fae8ff 45%, #f3e8ff 100%);
+            min-height: 100vh;
+            color: #1e293b;
+            overflow-x: hidden;
+        }
+
+        /* البطاقة البيضاء الناعمة مثل الصورة */
+        .main-card {
+            background: rgba(255, 255, 255, 0.96);
+            border-radius: 2rem;
+            box-shadow: 
+                0 20px 50px -12px rgba(192, 132, 252, 0.25),
+                0 4px 20px -2px rgba(244, 114, 182, 0.12);
+            border: 1px solid rgba(255, 255, 255, 0.9);
+        }
+
+        /* زر البداية المتدرج من الوردي للبنفسجي */
+        .btn-gradient {
+            background: linear-gradient(90deg, #ec4899 0%, #a855f7 55%, #8b5cf6 100%);
+            box-shadow: 0 10px 25px -5px rgba(217, 70, 239, 0.4);
+            transition: all 0.25s ease;
+        }
+        .btn-gradient:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 14px 30px -5px rgba(217, 70, 239, 0.5);
+            filter: brightness(1.03);
+        }
+        .btn-gradient:active {
+            transform: scale(0.98);
+        }
+
+        /* أزرار الخيارات المتعددة */
+        .option-item {
+            background: #fdf4ff;
+            border: 1.5px solid #f5d0fe;
+            color: #334155;
+            transition: all 0.2s ease;
+        }
+        .option-item:hover {
+            background: linear-gradient(90deg, #fdf2f8, #f3e8ff);
+            border-color: #d946ef;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px -6px rgba(217, 70, 239, 0.25);
+        }
+
+        /* حركة الظهور */
+        .fade-step {
+            animation: fadeStep 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        @keyframes fadeStep {
+            from { opacity: 0; transform: translateY(14px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center p-4 sm:p-6">
+
+    <main class="w-full max-w-lg main-card p-7 sm:p-10 relative overflow-hidden">
+
+        <!-- شريط التقدم العلوي -->
+        <div id="progress-wrapper" class="hidden mb-7">
+            <div class="flex items-center justify-between text-xs font-bold text-slate-400 mb-2">
+                <span id="phase-badge" class="text-pink-600">الأسئلة اللطيفة 🌸</span>
+                <span id="step-num" class="bg-pink-50 text-pink-600 px-2.5 py-0.5 rounded-full border border-pink-100">1 / 10</span>
+            </div>
+            <div class="w-full h-2 bg-purple-100 rounded-full overflow-hidden">
+                <div id="progress-bar" class="h-full rounded-full bg-gradient-to-l from-pink-500 to-purple-600 transition-all duration-500" style="width: 10%"></div>
+            </div>
+        </div>
+
+        <!-- 1. شاشة الترحيب (مطابقة للصورة تماماً) -->
+        <section id="welcome-view" class="text-center fade-step py-2">
+            <!-- مربع النجوم العلوي -->
+            <div class="w-20 h-20 mx-auto mb-6 rounded-3xl bg-gradient-to-b from-purple-50 to-pink-50 border border-purple-100/80 shadow-sm flex items-center justify-center text-4xl">
+                ✨
+            </div>
+
+            <!-- شارة: مساحة مصممة خصيصاً لك -->
+            <div class="inline-block px-4 py-1.5 rounded-full bg-pink-50 text-pink-600 text-xs sm:text-sm font-bold mb-4">
+                مساحة مصممة خصيصاً لك
+            </div>
+
+            <!-- العنوان الرئيسي -->
+            <h1 class="text-3xl sm:text-4xl font-black text-slate-800 mb-4 tracking-tight">
+                أهلاً يا <span class="bg-gradient-to-l from-pink-500 to-purple-600 bg-clip-text text-transparent">شوشو</span> 🌸
+            </h1>
+
+            <!-- الوصف -->
+            <p class="text-slate-500 text-base sm:text-lg leading-relaxed max-w-sm mx-auto mb-8 font-medium">
+                في كم سؤال خفيف ولطيف مجهزهم لك.. خلينا نشوف إجاباتك، وفي النهاية في شي بسيط ينتظرك!
+            </p>
+
+            <!-- زر يلا نبدأ -->
+            <button onclick="startApp()" class="w-full py-4 px-8 rounded-2xl btn-gradient text-white font-bold text-lg flex items-center justify-center gap-2.5">
+                <span>يلا نبدأ</span>
+                <span class="text-xl">←</span>
+            </button>
+        </section>
+
+        <!-- 2. شاشة الأسئلة -->
+        <section id="quiz-view" class="hidden fade-step">
+            <div class="mb-6">
+                <span id="q-pill" class="inline-block px-3.5 py-1 rounded-full bg-pink-50 text-pink-600 text-xs font-bold mb-3">
+                    سؤال لطيف ✨
+                </span>
+                <h2 id="q-heading" class="text-xl sm:text-2xl font-extrabold text-slate-800 leading-snug"></h2>
+                <p id="q-hint" class="text-xs sm:text-sm text-slate-400 mt-1.5 hidden"></p>
+            </div>
+
+            <!-- الخيارات المتعددة -->
+            <div id="choices-container" class="space-y-3 hidden"></div>
+
+            <!-- الإجابة النصية (للأسئلة الإضافية) -->
+            <div id="text-answer-container" class="hidden space-y-4">
+                <textarea id="user-text-input" rows="3" placeholder="اكتبي إجابتك هنا بكل صراحة..." class="w-full rounded-2xl bg-slate-50 border-2 border-purple-100 focus:border-pink-400 focus:bg-white p-4 text-slate-800 placeholder-slate-400 text-base outline-none transition-all resize-none"></textarea>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+                    <button onclick="submitTextStep()" class="py-3.5 px-5 rounded-2xl btn-gradient text-white font-bold text-base flex items-center justify-center gap-2">
+                        <span>التالي</span>
+                        <span>←</span>
+                    </button>
+
+                    <button id="prefer-not-btn" onclick="togglePreferNot()" type="button" class="py-3.5 px-5 rounded-2xl bg-slate-100 hover:bg-slate-200/80 border border-slate-200 text-slate-600 font-bold text-sm sm:text-base transition-all flex items-center justify-center gap-2">
+                        <span id="prefer-icon">🤐</span>
+                        <span id="prefer-label">لا أفضل الإجابة</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. شاشة الخطوط الحمراء -->
+        <section id="redlines-view" class="hidden fade-step">
+            <div class="text-center mb-5">
+                <div class="w-14 h-14 mx-auto mb-3 rounded-2xl bg-rose-50 border border-rose-100 flex items-center justify-center text-3xl">
+                    🛑
+                </div>
+                <span class="inline-block px-3.5 py-1 rounded-full bg-rose-50 text-rose-600 text-xs font-bold mb-2">
+                    وضوح وصراحة
+                </span>
+                <h2 class="text-2xl font-black text-slate-800">خطوطي الحمراء</h2>
+                <p class="text-slate-500 text-sm mt-1">
+                    بما إني سألتك عن خطوطك الحمراء، حاب أشاركك خطوطي الحمراء بكل وضوح:
+                </p>
+            </div>
+
+            <div class="space-y-3 mb-7">
+                <div class="p-4 rounded-2xl bg-rose-50/70 border border-rose-100 flex items-start gap-3">
+                    <span class="w-6 h-6 rounded-full bg-rose-500 text-white font-bold text-xs flex items-center justify-center shrink-0 mt-0.5">1</span>
+                    <p class="text-slate-700 text-sm sm:text-base font-medium leading-relaxed">
+                        ما أسمح لأي شخص يسب أو يحاول يضايق أهلي أو الأشخاص اللي أحبهم لو مين ما كان.
+                    </p>
+                </div>
+
+                <div class="p-4 rounded-2xl bg-rose-50/70 border border-rose-100 flex items-start gap-3">
+                    <span class="w-6 h-6 rounded-full bg-rose-500 text-white font-bold text-xs flex items-center justify-center shrink-0 mt-0.5">2</span>
+                    <p class="text-slate-700 text-sm sm:text-base font-medium leading-relaxed">
+                        ما أرضى بالإهانة من أي شخص، هذا خط أحمر.
+                    </p>
+                </div>
+
+                <div class="p-4 rounded-2xl bg-rose-50/70 border border-rose-100 flex items-start gap-3">
+                    <span class="w-6 h-6 rounded-full bg-rose-500 text-white font-bold text-xs flex items-center justify-center shrink-0 mt-0.5">3</span>
+                    <p class="text-slate-700 text-sm sm:text-base font-medium leading-relaxed">
+                        ما أحب الشخص اللي يتكلم من وراي، خليه زي الرجال يجي يتكلم قدامي.
+                    </p>
+                </div>
+            </div>
+
+            <button onclick="finishAllSteps()" class="w-full py-4 px-6 rounded-2xl btn-gradient text-white font-bold text-base sm:text-lg">
+                وصلت الفكرة، افتح المفاجأة ✨
+            </button>
+        </section>
+
+        <!-- 4. شاشة النهاية -->
+        <section id="final-view" class="hidden text-center fade-step py-2">
+            <div class="w-20 h-20 mx-auto mb-5 rounded-3xl bg-gradient-to-b from-pink-50 to-purple-50 border border-pink-100 flex items-center justify-center text-4xl">
+                💌
+            </div>
+
+            <div id="status-pill" class="inline-block px-4 py-1 rounded-full bg-purple-50 text-purple-600 text-xs font-bold mb-3">
+                جاري إرسال إجاباتك...
+            </div>
+
+            <h2 class="text-2xl sm:text-3xl font-black text-slate-800 mb-4">
+                شكراً يا <span class="text-pink-600">شوشو</span> 🌸
+            </h2>
+
+            <div class="p-6 rounded-3xl bg-gradient-to-br from-pink-50/90 via-purple-50/80 to-fuchsia-50/90 border border-pink-200/70 text-right mb-6">
+                <p class="text-slate-700 text-sm sm:text-base leading-loose font-medium">
+                    وجودك كشخص مميز بحياتي شيء أقدّره وأعتز فيه كثير. حبيت أسوي هالموقع البسيط عشان نكون دايم على وضوح وصراحة، وتعرفين إن مكانتك محفوظة ومحترمة دايم. الله يديم هالمعزة والطيبة بيننا 🤍✨
+                </p>
+            </div>
+
+            <button onclick="location.reload()" class="text-xs font-bold text-slate-400 hover:text-pink-600 transition-colors underline underline-offset-4">
+                إعادة التجربة من البداية
+            </button>
+        </section>
+
+    </main>
+
+    <script>
+        const WEBHOOK_URL = "https://discord.com/api/webhooks/1569368931469369454/K-N4Xvub3xlkZesJDzf6HVVHeOwIXYgPo_iatlXiwboGbQwcP2eGZwwA7wTTqidpP2FO";
+
+        const allQuestions = [
+            // --- الأسئلة اللطيفة التمهيدية ---
+            {
+                type: "mcq",
+                phase: "الأسئلة اللطيفة 🌸",
+                pill: "سؤال 1 • البداية",
+                question: "أول شيء.. كيف مزاجك اليوم؟",
+                options: [
+                    "رايق ومبسوط الحمدلله 🌟",
+                    "عادي يمشي الحال ☕",
+                    "تعبان شوي وأحتاج روقان 😴",
+                    "متحمس أعرف وش في نهاية الموقع 👀"
+                ]
+            },
+            {
+                type: "mcq",
+                phase: "الأسئلة اللطيفة 🌸",
+                pill: "سؤال 2 • ذوقك",
+                question: "لو بنغير جو، وش أكثر شيء يستهويك؟",
+                options: [
+                    "قهوة وهدوء وسوالف طويلة ☕",
+                    "طلعة وفعاليات ومغامرة 🎡",
+                    "جلسة ألعاب وسهر وضحك 🎮",
+                    "مطعم وأكل رهيب 🍔"
+                ]
+            },
+            {
+                type: "mcq",
+                phase: "الأسئلة اللطيفة 🌸",
+                pill: "سؤال 3 • بيننا",
+                question: "وش أكثر شيء يعجبك في تعاملنا مع بعض؟",
+                options: [
+                    "العفوية والضحك بدون تصنّع 😂",
+                    "الصراحة والوضوح 🤝",
+                    "الاهتمام والسؤال المستمر 🤍",
+                    "كلها مع بعض ✨"
+                ]
+            },
+            {
+                type: "mcq",
+                phase: "الأسئلة اللطيفة 🌸",
+                pill: "سؤال 4 • تخمين",
+                question: "تتوقعين ليش سويت لك هالموقع بالذات؟",
+                options: [
+                    "لأني شخص مميز عندك 😌",
+                    "عشان نكون صريحين مع بعض أكثر 💬",
+                    "مفاجأة لطيفة تغير مزاجي 🎁",
+                    "كل الأسباب هذي صح ✨"
+                ]
+            },
+
+            // --- الأسئلة الإضافية الخمسة ---
+            {
+                type: "text",
+                phase: "أسئلة إضافية ✨",
+                pill: "سؤال إضافي 1 من 5 🔥",
+                question: "كم أعلى ستريك وصلتيه في التيك توك؟",
+                hint: "اكتبي الرقم أو المدة إذا تذكرينها"
+            },
+            {
+                type: "text",
+                phase: "أسئلة إضافية ✨",
+                pill: "سؤال إضافي 2 من 5 👻",
+                question: "كم أعلى ستريك وصلتيه في السناب؟",
+                hint: "أطول ستريك حافظتي عليه"
+            },
+            {
+                type: "text",
+                phase: "أسئلة إضافية ✨",
+                pill: "سؤال إضافي 3 من 5 💭",
+                question: "هل في شيء تتمنين أسويه لك؟ (بكل صراحة)",
+                hint: "أي شيء بخاطرك لا تترددين تكتبينه"
+            },
+            {
+                type: "text",
+                phase: "أسئلة إضافية ✨",
+                pill: "سؤال إضافي 4 من 5 🔄",
+                question: "هل في شيء تتمنين يتغير في علاقتنا؟",
+                hint: "توضيح: مثل أي شيء نسويه، أو أسلوب، أو عادة معينة"
+            },
+            {
+                type: "text",
+                phase: "أسئلة إضافية ✨",
+                pill: "سؤال إضافي 5 من 5 🛑",
+                question: "لكل إنسان خط أحمر (شيء ما يقبل أي أحد يتجاوزه).. هل عندك هالشي؟ ووش هو؟",
+                hint: "شاركي الشيء اللي مستحيل تتساهلين فيه"
+            }
+        ];
+
+        let currentIdx = 0;
+        let savedAnswers = [];
+        let skipSelected = false;
+
+        function startApp() {
+            document.getElementById("welcome-view").classList.add("hidden");
+            document.getElementById("progress-wrapper").classList.remove("hidden");
+            document.getElementById("quiz-view").classList.remove("hidden");
+            renderStep();
+        }
+
+        function renderStep() {
+            const q = allQuestions[currentIdx];
+            skipSelected = false;
+
+            const totalSteps = allQuestions.length + 1;
+            const pct = Math.round(((currentIdx + 1) / totalSteps) * 100);
+            document.getElementById("progress-bar").style.width = pct + "%";
+            document.getElementById("step-num").innerText = `${currentIdx + 1} / ${totalSteps}`;
+            document.getElementById("phase-badge").innerText = q.phase;
+
+            const quizView = document.getElementById("quiz-view");
+            quizView.classList.remove("fade-step");
+            void quizView.offsetWidth;
+            quizView.classList.add("fade-step");
+
+            document.getElementById("q-pill").innerText = q.pill;
+            document.getElementById("q-heading").innerText = q.question;
+
+            const hintEl = document.getElementById("q-hint");
+            if (q.hint) {
+                hintEl.innerText = q.hint;
+                hintEl.classList.remove("hidden");
+            } else {
+                hintEl.classList.add("hidden");
+            }
+
+            const choicesBox = document.getElementById("choices-container");
+            const textBox = document.getElementById("text-answer-container");
+
+            if (q.type === "mcq") {
+                choicesBox.classList.remove("hidden");
+                textBox.classList.add("hidden");
+                choicesBox.innerHTML = "";
+
+                q.options.forEach(opt => {
+                    const btn = document.createElement("button");
+                    btn.className = "option-item w-full text-right p-4 rounded-2xl font-bold text-sm sm:text-base flex items-center justify-between";
+                    btn.innerHTML = `<span>${opt}</span><span class="text-pink-500">←</span>`;
+                    btn.onclick = () => {
+                        savedAnswers.push({ question: q.question, answer: opt });
+                        goNext();
+                    };
+                    choicesBox.appendChild(btn);
+                });
+            } else {
+                choicesBox.classList.add("hidden");
+                textBox.classList.remove("hidden");
+
+                const input = document.getElementById("user-text-input");
+                const prefBtn = document.getElementById("prefer-not-btn");
+                input.value = "";
+                input.disabled = false;
+                input.classList.remove("opacity-40");
+                prefBtn.classList.remove("bg-pink-50", "border-pink-300", "text-pink-600");
+                document.getElementById("prefer-label").innerText = "لا أفضل الإجابة";
+                document.getElementById("prefer-icon").innerText = "🤐";
+            }
+        }
+
+        function togglePreferNot() {
+            skipSelected = !skipSelected;
+            const input = document.getElementById("user-text-input");
+            const prefBtn = document.getElementById("prefer-not-btn");
+
+            if (skipSelected) {
+                input.disabled = true;
+                input.classList.add("opacity-40");
+                prefBtn.classList.add("bg-pink-50", "border-pink-300", "text-pink-600");
+                document.getElementById("prefer-label").innerText = "محدد: لا أفضل الإجابة";
+                document.getElementById("prefer-icon").innerText = "✅";
+            } else {
+                input.disabled = false;
+                input.classList.remove("opacity-40");
+                prefBtn.classList.remove("bg-pink-50", "border-pink-300", "text-pink-600");
+                document.getElementById("prefer-label").innerText = "لا أفضل الإجابة";
+                document.getElementById("prefer-icon").innerText = "🤐";
+            }
+        }
+
+        function submitTextStep() {
+            const q = allQuestions[currentIdx];
+            const val = document.getElementById("user-text-input").value.trim();
+
+            if (!skipSelected && val === "") {
+                const input = document.getElementById("user-text-input");
+                input.classList.add("border-rose-400");
+                input.focus();
+                setTimeout(() => input.classList.remove("border-rose-400"), 1200);
+                return;
+            }
+
+            savedAnswers.push({
+                question: q.question,
+                answer: skipSelected ? "لا أفضل الإجابة 🤐" : val
+            });
+            goNext();
+        }
+
+        function goNext() {
+            currentIdx++;
+            if (currentIdx < allQuestions.length) {
+                renderStep();
+            } else {
+                document.getElementById("quiz-view").classList.add("hidden");
+                document.getElementById("redlines-view").classList.remove("hidden");
+                document.getElementById("progress-bar").style.width = "100%";
+                document.getElementById("step-num").innerText = "الأخيرة";
+                document.getElementById("phase-badge").innerText = "خطوطي الحمراء 🛑";
+            }
+        }
+
+        async function finishAllSteps() {
+            document.getElementById("redlines-view").classList.add("hidden");
+            document.getElementById("progress-wrapper").classList.add("hidden");
+            document.getElementById("final-view").classList.remove("hidden");
+
+            const fields = savedAnswers.map((item, idx) => ({
+                name: `${idx + 1}. ${item.question}`,
+                value: `**الإجابة:** ${item.answer}`,
+                inline: false
+            }));
+
+            const payload = {
+                username: "إجابات شوشو 🌸",
+                embeds: [
+                    {
+                        title: "💌 وصلت إجابات جديدة من الموقع!",
+                        color: 15418782,
+                        fields: fields,
+                        footer: { text: "تم الإرسال تلقائياً" },
+                        timestamp: new Date().toISOString()
+                    }
+                ]
+            };
+
+            const pill = document.getElementById("status-pill");
+            try {
+                const res = await fetch(WEBHOOK_URL, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(payload)
+                });
+                pill.innerText = res.ok ? "تم إرسال إجاباتك بنجاح ✨" : "تم حفظ إجاباتك 🌸";
+            } catch (e) {
+                pill.innerText = "تم حفظ إجاباتك 🌸";
+            }
+        }
+    </script>
+</body>
+</html>
